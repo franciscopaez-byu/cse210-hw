@@ -7,30 +7,59 @@ class Program
         Journal theJournal = new Journal();
         PromptGenerator pg = new PromptGenerator();
 
-        //something
-
         string choice = "";
-        while (choice != "")
+        Console.WriteLine("Welcome to the Journal program!");
+
+        while (choice != "5")
         {
-            Console.WriteLine("");
-            Console.WriteLine("");
-            Console.WriteLine("");
-            Console.WriteLine("");
-            Console.WriteLine("");
+            Console.WriteLine("\nPlease select one of the following choices:");
+            Console.WriteLine("1. Write");
+            Console.WriteLine("2. Display");
+            Console.WriteLine("3. Load");
+            Console.WriteLine("4. Save");
+            Console.WriteLine("5. Quit");
+            Console.Write("What would you like to do? ");
 
             choice = Console.ReadLine();
 
-            if (choice=="")
+            if (choice=="1")
             {
-                //
+                string prompt = pg.GetRandomPrompt();
+                Console.WriteLine(prompt);
+                Console.Write("> ");
+                string response = Console.ReadLine();
+                string date = DateTime.Now.ToShortDateString();
+
+                Entry newEntry = new Entry();
+                newEntry._date = date;
+                newEntry._promptText = prompt;
+                newEntry._entryText = response;
+
+                theJournal.AddEntry(newEntry);
             }
-            else if (choice == "")
+            else if (choice == "2")
             {
-                //
+                theJournal.DisplayAll();
             }
-            else if (choice == "")
+            else if (choice == "3")
             {
-                //
+                Console.Write("What is the filename? ");
+                string fileName = Console.ReadLine();
+                
+                if (File.Exists(fileName))
+                {
+                    theJournal.LoadFromFile(fileName);
+                }
+                else
+                {
+                    Console.WriteLine("File not found.");
+                }
+            }
+            else if (choice == "4")
+            {
+                Console.Write("What is the filename? ");
+                string fileName = Console.ReadLine();
+                theJournal.SaveToFile(fileName);
             }
         }
     }
